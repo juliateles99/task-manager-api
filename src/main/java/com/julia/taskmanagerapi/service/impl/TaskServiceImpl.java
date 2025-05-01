@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class TaskServiceImpl implements TaskService {
+public abstract class TaskServiceImpl implements TaskService {
 
     private final TaskRepository repository;
     private final TaskMapper mapper;
