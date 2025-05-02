@@ -8,51 +8,56 @@ import com.julia.taskmanagerapi.service.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/tarefas")
-@RequiredArgsConstructor
+@RequestMapping("/api/tasks")
 @Tag(name = "Tarefas", description = "Endpoints para gerenciamento de tarefas")
 public class TaskController {
 
     private final TaskService taskService;
 
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
+    }
+
     @Operation(summary = "Criar nova tarefa")
     @PostMapping
-    public ResponseEntity<TaskResponseDTO> create(@Valid @RequestBody TaskRequestDTO dto) {
-        return new ResponseEntity<>(taskService.create(dto), HttpStatus.CREATED);
+    public ResponseEntity<TaskResponseDTO> createTask(@Valid @RequestBody TaskRequestDTO taskRequestDTO) {
+        return ResponseEntity.ok(taskService.createTask(taskRequestDTO));
     }
 
     @Operation(summary = "Listar todas as tarefas")
     @GetMapping
-    public ResponseEntity<List<TaskResponseDTO>> getAll() {
-        return ResponseEntity.ok(taskService.getAll());
+    public ResponseEntity<List<TaskResponseDTO>> getAllTasks() {
+        return ResponseEntity.ok(taskService.getAllTasks());
     }
 
     @Operation(summary = "Buscar tarefa por ID")
     @GetMapping("/{id}")
-    public ResponseEntity<TaskResponseDTO> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(taskService.getById(id));
+    public ResponseEntity<TaskResponseDTO> getTaskById(@PathVariable Long id) {
+        return ResponseEntity.ok(taskService.getTaskById(id));
     }
 
     @Operation(summary = "Atualizar tarefa existente")
     @PutMapping("/{id}")
-    public ResponseEntity<TaskResponseDTO> update(@PathVariable Long id, @Valid @RequestBody TaskRequestDTO dto) {
-        return ResponseEntity.ok(taskService.update(id, dto));
+    public ResponseEntity<TaskResponseDTO> updateTask(
+            @PathVariable Long id,
+            @Valid @RequestBody TaskRequestDTO taskRequestDTO
+    ) {
+        return ResponseEntity.ok(taskService.updateTask(id, taskRequestDTO));
     }
 
     @Operation(summary = "Excluir tarefa por ID")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        taskService.delete(id);
+    public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
+        taskService.deleteTask(id);
         return ResponseEntity.noContent().build();
     }
 
