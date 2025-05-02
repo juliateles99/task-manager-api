@@ -9,11 +9,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface TaskService {
-    TaskResponseDTO create(TaskRequestDTO dto);
-    TaskResponseDTO update(Long id, TaskRequestDTO dto);
-    TaskResponseDTO getById(Long id);
-    List<TaskResponseDTO> getAll();
-    void delete(Long id);
+    TaskResponseDTO createTask(TaskRequestDTO taskRequestDTO);
+    List<TaskResponseDTO> getAllTasks();
+    TaskResponseDTO getTaskById(Long id);
+    TaskResponseDTO updateTask(Long id, TaskRequestDTO taskRequestDTO);
+    void deleteTask(Long id);
 
     List<TaskResponseDTO> findByStatus(Status status);
     List<TaskResponseDTO> findByPrioridade(Prioridade prioridade);
